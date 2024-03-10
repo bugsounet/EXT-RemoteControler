@@ -1,0 +1,45 @@
+{
+  "name": "EXT-FireTVRemote",
+  "version": "0.0.0",
+  "rev": "240310",
+  "description": "Control MMM-GoogleAssistant with Amazon FireTV Remote",
+  "main": "EXT-FireTVRemote.js",
+  "scripts": {
+    "preinstall": "installer/preinstall.sh",
+    "postinstall": "installer/postinstall.sh -b",
+    "update": "installer/update.sh",
+    "reset": "git reset --hard",
+    "clean": "rm -rf node_modules package-lock.json",
+    "lint": "eslint *.js installer/*.js components/*.js --config eslint.config.js",
+    "lint:fix": "eslint *.js installer/*.js components/*.js --config eslint.config.js --fix",
+    "test": "npm run lint",
+    "test:minify": "cd installer && node minify.js"
+  },
+  "keywords": [
+    "MMM-GoogleAssistant",
+    "magic mirror",
+    "module",
+    "remote",
+    "FireTV"
+  ],
+  "author": "bugsounet",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://forum.bugsounet.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bugsounet/EXT-FireTVRemote"
+  },
+  "homepage": "https://wiki.bugsounet.fr/en/EXT-FireTVRemote",
+  "dependencies": {
+    "esbuild": "^0.20.1",
+    "glob": "^10.3.10"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.57.0",
+    "@stylistic/eslint-plugin": "^1.6.3",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1"
+  }
+}
