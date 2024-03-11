@@ -10,7 +10,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Install udev
+      - name: Install libudev-dev
         run: sudo apt-get install libudev-dev
 
       - name: Install Dependencies
