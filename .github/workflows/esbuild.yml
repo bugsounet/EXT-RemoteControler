@@ -10,6 +10,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Install libudev-dev
+        run: sudo apt-get install libudev-dev
+
       - name: Install Dependencies
         run: npm prune
 
