@@ -1,0 +1,5 @@
+#title           :99-FireTVRemote.rules
+#description     :UDEV Rules File for creating symlink to bluetooth FireTV remote
+#date            :2024-03-10
+#==============================================================================
+SUBSYSTEM=="input", ATTRS{name}=="Amazon Fire TV Remote Keyboard", ENV{DEVNAME}=="*event*", SYMLINK+="input/FireTVRemote"
