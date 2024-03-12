@@ -7,9 +7,12 @@
  */
 
 var log = (...args) => { /* do nothing */ };
+const exec = require("child_process").exec;
+const path = require("path");
 const NodeHelper = require("node_helper");
 const evdev = require("evdev");
 const udev = require("udev");
+
 
 module.exports = NodeHelper.create({
   start () {
@@ -19,11 +22,37 @@ module.exports = NodeHelper.create({
   },
 
   socketNotificationReceived (notification, payload) {
-    if (notification === "INIT") {
-      if (!this.evdevMonitorCreated) {
-        this.config=payload;
-        this.initialize();
-      }
+    switch (notification) {
+      case "INIT":
+        if (!this.evdevMonitorCreated) {
+          this.config=payload;
+          this.initialize();
+        }
+        break;
+      case "SHELLEXEC":
+        let cwdPath = path.resolve(__dirname, "scripts/");
+        var command = payload;
+        if (!command) {
+          this.sendSocketNotification("WARN", { message: "ShellExec: no command to execute!" } );
+          return console.log("[REMOTE] ShellExec: no command to execute!");
+        }
+        exec (command, { cwd: cwdPath }, (e,so,se)=> {
+          log("ShellExec command:", command);
+          if (e) {
+            console.log(`[REMOTE] ShellExec Error:${  e}`);
+            this.sendSocketNotification("WARN", { message: "ShellExec: execute Error !" } );
+          }
+
+          log("SHELLEXEC_RESULT", {
+            executed: payload,
+            result: {
+              error: e,
+              stdOut: so,
+              stdErr: se
+            }
+          });
+        });
+        break;
     }
   },
 
@@ -49,10 +78,9 @@ module.exports = NodeHelper.create({
           this.pendingKeyPress.code = data.code;
           this.pendingKeyPress.value = data.value;
           this.pendingKeyPress.state = this.pendingKeyPress.value === 1 ? "KEY_PRESSED" : "KEY_LONGPRESSED";
-          this.pendingKeyPress.type = this.pendingKeyPress.value === 1 ? "pressed." : "long pressed.";
         } else {
           if ("code" in this.pendingKeyPress && this.pendingKeyPress.code === data.code) {
-            log(`SEND: ${this.pendingKeyPress.code} --> ${this.pendingKeyPress.type}`);
+            log(`SEND: ${this.pendingKeyPress.code} --> ${this.pendingKeyPress.state}`);
             this.sendSocketNotification("KEY", {
               keyName: data.code,
               keyState: this.pendingKeyPress.state
@@ -63,7 +91,9 @@ module.exports = NodeHelper.create({
       })
       .on("error", (e) => {
         if (e.code === "ENODEV" || e.code === "ENOENT") {
-          console.warn(`[REMOTE] Device not connected, nothing at path ${e.path}, waiting for device…`);
+          if (e.path) console.warn(`[REMOTE] Device not connected, nothing at path ${e.path}, waiting for device…`);
+          else console.warn("[REMOTE] Device disconnected, waiting for device…");
+          this.sendSocketNotification("WARN", "Remote disconnected");
           this.waitForDevice();
         } else {
           console.error("[REMOTE]", e);
@@ -76,6 +106,7 @@ module.exports = NodeHelper.create({
     this.device = this.evdevReader.open(this.eventPath);
     this.device.on("open", () => {
       log(`Connected to device: ${this.eventPath} ${JSON.stringify(this.device.id)}`);
+      this.sendSocketNotification("INFO", "Remote connected.");
     });
     this.device.on("close", () => {
       log("Connection to device has been closed.");
