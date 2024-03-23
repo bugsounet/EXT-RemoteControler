@@ -1,0 +1,8 @@
+{
+  "name": "EXT-FireTVRemote",
+  "version": "0.0.0",
+  "rev": "240310",
+  "description": "Control MMM-GoogleAssistant with Amazon FireTV Remote",
+  "author": "bugsounet",
+  "license": "MIT"
+}
