@@ -49,11 +49,11 @@ fi
 # Go back to module root
 cd ..
 
-echo "Copy the udev rules file to the correct location"
-sudo cp 99-EXT_RemoteCrontroler.rules /etc/udev/rules.d
+#echo "Copy the udev rules file to the correct location"
+#sudo cp 99-EXT_RemoteCrontroler.rules /etc/udev/rules.d
 
-echo "Reload the udev rules"
-sudo udevadm control -R
+#echo "Reload the udev rules"
+#sudo udevadm control -R
 
 
 if [[ $rebuild == 1 ]]; then
