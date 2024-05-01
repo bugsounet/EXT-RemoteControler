@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "rev": "240501",
   "description": "Control MMM-GoogleAssistant with a Remote Controler",
-  "main": "EXT-FireTVRemote.js",
+  "main": "EXT-RemoteControle.js",
   "scripts": {
     "preinstall": "installer/preinstall.sh -d 'build-essential libudev-dev'",
     "postinstall": "installer/postinstall.sh -r -b",
