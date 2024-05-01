@@ -63,7 +63,7 @@ Module.register("EXT-RemoteControler", {
         this.reverseKeyMap[this.config.keyMap[this.config.type][eKey]] = eKey;
       }
     }
-    this.resources = "/modules/EXT_RemoteCrontroler/resources/";
+    this.resources = "/modules/EXT-RemoteControler/resources/";
     this.audio = null;
   },
 
