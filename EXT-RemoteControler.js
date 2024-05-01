@@ -1,21 +1,47 @@
 
-Module.register("EXT-FireTVRemote", {
+Module.register("EXT-RemoteControler", {
   defaults: {
     debug: false,
+    develop: false,
     keyFinder: false,
+    type: "samsung",
+    throttledTimeout: 250,
     keyMap: {
-      Home: "KEY_HOMEPAGE",
-      Enter: "KEY_KPENTER",
-      ArrowLeft: "KEY_LEFT",
-      ArrowRight: "KEY_RIGHT",
-      ArrowUp: "KEY_UP",
-      ArrowDown: "KEY_DOWN",
-      Menu: "KEY_MENU",
-      PlayPause: "KEY_PLAYPAUSE",
-      NextTrack: "KEY_FASTFORWARD",
-      PreviousTrack: "KEY_REWIND",
-      Return: "KEY_BACK"
+      amazon: {
+        Home: "KEY_HOMEPAGE",
+        Enter: "KEY_KPENTER",
+        ArrowLeft: "KEY_LEFT",
+        ArrowRight: "KEY_RIGHT",
+        ArrowUp: "KEY_UP",
+        ArrowDown: "KEY_DOWN",
+        Menu: "KEY_MENU",
+        PlayPause: "KEY_PLAYPAUSE",
+        NextTrack: "KEY_FASTFORWARD",
+        PreviousTrack: "KEY_REWIND",
+        Return: "KEY_BACK"
+      },
+      samsung: {
+        Power: 2,
+        Mic: 160,
+        123: 210,
+        Colors: 206,
+        Enter: 104,
+        ArrowLeft: 101,
+        ArrowRight: 98,
+        ArrowUp: 96,
+        ArrowDown: 97,
+        Return: 88,
+        Home: 121,
+        PlayPause: 185,
+        VolumeInc: 7,
+        VolumeDec: 11,
+        VolumeMute: 15,
+        ChannelInc: 18,
+        ChannelDec: 16,
+        ChannelGuide: 79
+      }
     },
+    
     actions: [
       {
         key: "Enter",
@@ -32,12 +58,12 @@ Module.register("EXT-FireTVRemote", {
 
   start () {
     this.reverseKeyMap = {};
-    for (var eKey in this.config.keyMap) {
-      if (this.config.keyMap.hasOwnProperty(eKey)) {
-        this.reverseKeyMap[this.config.keyMap[eKey]] = eKey;
+    for (var eKey in this.config.keyMap[this.config.type]) {
+      if (this.config.keyMap[this.config.type].hasOwnProperty(eKey)) {
+        this.reverseKeyMap[this.config.keyMap[this.config.type][eKey]] = eKey;
       }
     }
-    this.resources = "/modules/EXT-FireTVRemote/resources/";
+    this.resources = "/modules/EXT_RemoteCrontroler/resources/";
     this.audio = null;
   },
 
@@ -66,7 +92,7 @@ Module.register("EXT-FireTVRemote", {
           type: "warning",
           message: payload,
           timer: 2000,
-          icon: `${this.resources} + remote.jpg`
+          icon: `${this.resources}remote.jpg`
         });
         break;
       case "INFO":
@@ -74,7 +100,7 @@ Module.register("EXT-FireTVRemote", {
           type: "information",
           message: payload,
           timer: 2000,
-          icon: `${this.resources} + remote.jpg`
+          icon: `${this.resources}remote.jpg`
         });
     }
   },
@@ -89,7 +115,7 @@ Module.register("EXT-FireTVRemote", {
         type: "information",
         message: `You pressed: ${Key.keyName} (KeyMap: ${Key.keyMap}) with ${Key.keyState}`,
         timer: 1000,
-        icon: `${this.resources} + remote.jpg`
+        icon: `${this.resources}remote.jpg`
       });
     }
     let action = this.config.actions.filter((k) => k.key === Key.keyMap);

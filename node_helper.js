@@ -18,7 +18,10 @@ module.exports = NodeHelper.create({
   start () {
     this.MonitorCreated = false;
     this.config = {};
-    this.eventPath= "/dev/input/FireTVRemote";
+    this.eventPath= "/dev/input/EXT-RemoteControler";
+    this.throttled = false;
+    this.throttledTimeout = null;
+    this.throttledLastValue = null;
   },
 
   socketNotificationReceived (notification, payload) {
@@ -68,12 +71,46 @@ module.exports = NodeHelper.create({
   },
 
   startMonitor () {
-    this.evdevReader = new evdev();
+    console.log("[REMOTE] Start Monitor...")
+    this.evdevReader = new evdev({ raw: this.config.develop });
     this.MonitorCreated = true;
     this.pendingKeyPress = {};
+    this.throttled = false;
+    this.throttledLastValue = false;
+    this.throttledTimeout = null;
 
     this.evdevReader
+      .on("event", data => {
+        console.log("[REMOTE] [DEVELOP]", data)
+      })
+      .on("EV_REL", data => {  //samsung remote control compatibility
+        if (this.config.type !== "samsung") return
+        if (data.code > 0) {
+          if (data.value !== this.throttledLastValue) {
+            this.throttledLastValue = data.value
+            this.throttled = true
+            clearTimeout(this.throttledTimeout)
+            this.throttledTimeout = null;
+          } else {
+            if (!this.throttledTimeout) {
+              this.throttledTimeout = setTimeout(() => {
+                  this.throttled = false
+                  this.throttledTimeout = null;
+              }, this.config.throttledTimeout)
+            }
+            if (this.throttled) return
+            else this.throttled = true;
+          }
+
+          this.sendSocketNotification("KEY", {
+            keyName: data.value,
+            keyState: "KEY_PRESSED"
+          });
+          log(`[TYPE ${this.config.type}] -- Send Value: ${data.value}`)
+        }
+      })
       .on("EV_KEY", (data) => {
+        if (this.config.type !== "amazon") return
         if (data.value > 0) {
           this.pendingKeyPress.code = data.code;
           this.pendingKeyPress.value = data.value;
@@ -100,6 +137,7 @@ module.exports = NodeHelper.create({
         }
       });
     this.setupDevice();
+    //this.waitForDevice();
   },
 
   setupDevice () {
@@ -115,10 +153,13 @@ module.exports = NodeHelper.create({
   },
 
   waitForDevice () {
-    this.udevMonitor = udev.monitor();
+    this.udevMonitor = udev.monitor("input");
     this.udevMonitor.on("add", (device) => {
+      if ("DEVNAME" in device && device.DEVNAME.includes("event")) {
+        log("[DEBUG] Found:", device.DEVNAME)
+      }
       if ("DEVLINKS" in device && device.DEVLINKS === this.eventPath) {
-        log("Device connected.");
+        log(`Device connected: ${device.DEVNAME}`);
         this.udevMonitor.close();
         this.setupDevice();
       }

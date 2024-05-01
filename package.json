@@ -1,8 +1,8 @@
 {
-  "name": "EXT-FireTVRemote",
+  "name": "EXT-RemoteControler",
   "version": "0.0.0",
-  "rev": "240310",
-  "description": "Control MMM-GoogleAssistant with Amazon FireTV Remote",
+  "rev": "240501",
+  "description": "Control MMM-GoogleAssistant with a Remote Controler",
   "main": "EXT-FireTVRemote.js",
   "scripts": {
     "preinstall": "installer/preinstall.sh -d 'build-essential libudev-dev'",
@@ -21,8 +21,7 @@
     "MMM-GoogleAssistant",
     "magic mirror",
     "module",
-    "remote",
-    "FireTV"
+    "remote"
   ],
   "author": "bugsounet",
   "license": "MIT",
@@ -31,9 +30,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bugsounet/EXT-FireTVRemote"
+    "url": "https://github.com/bugsounet/EXT-RemoteControler"
   },
-  "homepage": "https://wiki.bugsounet.fr/en/EXT-FireTVRemote",
+  "homepage": "https://wiki.bugsounet.fr/en/EXT-RemoteControler",
   "dependencies": {
     "@electron/rebuild": "^3.6.0",
     "esbuild": "^0.20.1",
