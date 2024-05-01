@@ -71,7 +71,7 @@ module.exports = NodeHelper.create({
   },
 
   startMonitor () {
-    console.log("[REMOTE] Start Monitor...")
+    console.log("[REMOTE] Start Monitor...");
     this.evdevReader = new evdev({ raw: this.config.develop });
     this.MonitorCreated = true;
     this.pendingKeyPress = {};
@@ -80,25 +80,25 @@ module.exports = NodeHelper.create({
     this.throttledTimeout = null;
 
     this.evdevReader
-      .on("event", data => {
-        console.log("[REMOTE] [DEVELOP]", data)
+      .on("event", (data) => {
+        console.log("[REMOTE] [DEVELOP]", data);
       })
-      .on("EV_REL", data => {  //samsung remote control compatibility
-        if (this.config.type !== "samsung") return
+      .on("EV_REL", (data) => {  //samsung remote control compatibility
+        if (this.config.type !== "samsung") return;
         if (data.code > 0) {
           if (data.value !== this.throttledLastValue) {
-            this.throttledLastValue = data.value
-            this.throttled = true
-            clearTimeout(this.throttledTimeout)
+            this.throttledLastValue = data.value;
+            this.throttled = true;
+            clearTimeout(this.throttledTimeout);
             this.throttledTimeout = null;
           } else {
             if (!this.throttledTimeout) {
               this.throttledTimeout = setTimeout(() => {
-                  this.throttled = false
-                  this.throttledTimeout = null;
-              }, this.config.throttledTimeout)
+                this.throttled = false;
+                this.throttledTimeout = null;
+              }, this.config.throttledTimeout);
             }
-            if (this.throttled) return
+            if (this.throttled) return;
             else this.throttled = true;
           }
 
@@ -106,11 +106,11 @@ module.exports = NodeHelper.create({
             keyName: data.value,
             keyState: "KEY_PRESSED"
           });
-          log(`[TYPE ${this.config.type}] -- Send Value: ${data.value}`)
+          log(`[TYPE ${this.config.type}] -- Send Value: ${data.value}`);
         }
       })
       .on("EV_KEY", (data) => {
-        if (this.config.type !== "amazon") return
+        if (this.config.type !== "amazon") return;
         if (data.value > 0) {
           this.pendingKeyPress.code = data.code;
           this.pendingKeyPress.value = data.value;
@@ -156,7 +156,7 @@ module.exports = NodeHelper.create({
     this.udevMonitor = udev.monitor("input");
     this.udevMonitor.on("add", (device) => {
       if ("DEVNAME" in device && device.DEVNAME.includes("event")) {
-        log("[DEBUG] Found:", device.DEVNAME)
+        log("[DEBUG] Found:", device.DEVNAME);
       }
       if ("DEVLINKS" in device && device.DEVLINKS === this.eventPath) {
         log(`Device connected: ${device.DEVNAME}`);
