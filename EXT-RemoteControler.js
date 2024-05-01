@@ -139,7 +139,6 @@ Module.register("EXT-RemoteControler", {
         key: "VolumeMute",
         notification: "EXT_VOLUME-SPEAKER_MUTE_TOGGLE"
       },
-
       {
         type: "samsung",
         key: "ChannelUp",
@@ -159,6 +158,16 @@ Module.register("EXT-RemoteControler", {
       // type amazon
       {
         type: "amazon",
+        key: "ArrowLeft",
+        notification: "EXT_PAGES-DECREMENT"
+      },
+      {
+        type: "amazon",
+        key: "ArrowRight",
+        notification: "EXT_PAGES-INCREMENT"
+      },
+      {
+        type: "amazon",
         key: "Enter",
         state: "KEY_PRESSED",
         notification: "GA_ACTIVATE"
@@ -168,7 +177,92 @@ Module.register("EXT-RemoteControler", {
         key: "Enter",
         state: "KEY_LONGPRESSED",
         notification: "GA_STOP"
+      },
+      {
+        type: "amazon",
+        key: "ArrowUp",
+        notification: "EXT_VOLUME-SPEAKER_UP"
+      },
+      {
+        type: "amazon",
+        key: "ArrowDown",
+        notification: "EXT_VOLUME-SPEAKER_DOWN"
+      },
+      {
+        type: "amazon",
+        key: "Return",
+        state: "KEY_PRESSED",
+        notification: "EXT_STOP"
+      },
+      {
+        type: "amazon",
+        key: "Home",
+        state: "KEY_PRESSED",
+        notification: "EXT_PAGES-HOME"
+      },
+      {
+        type: "amazon",
+        key: "Menu",
+        state: "KEY_PRESSED",
+        notification: "EXT_SCREEN-FORCE_WAKEUP"
+      },
+      {
+        type: "amazon",
+        key: "Menu",
+        state: "KEY_LONGPRESSED",
+        notification: "EXT_SCREEN-FORCE_END"
+      },
+      /* with EXT-Music
+      {
+        type: "amazon",
+        key: "PreviousTrack",
+        state: "KEY_PRESSED",
+        notification: "EXT_MUSIC-PREVIOUS"
+      },
+      {
+        type: "amazon",
+        key: "PlayPause",
+        state: "KEY_PRESSED",
+        notification: "EXT_MUSIC-PLAY"
+      },
+      {
+        type: "amazon",
+        key: "PlayPause",
+        state: "KEY_LONGPRESSED",
+        notification: "EXT_MUSIC-PAUSE"
+      },
+      {
+        type: "amazon",
+        key: "NextTrack",
+        state: "KEY_PRESSED",
+        notification: "EXT_MUSIC-NEXT"
+      },
+      */
+      {
+        type: "amazon",
+        key: "PreviousTrack",
+        state: "KEY_PRESSED",
+        notification: "EXT_SPOTIFY-PREVIOUS"
+      },
+      {
+        type: "amazon",
+        key: "PlayPause",
+        state: "KEY_PRESSED",
+        notification: "EXT_SPOTIFY-PLAY"
+      },
+      {
+        type: "amazon",
+        key: "PlayPause",
+        state: "KEY_LONGPRESSED",
+        notification: "EXT_SPOTIFY-PAUSE"
+      },
+      {
+        type: "amazon",
+        key: "NextTrack",
+        state: "KEY_PRESSED",
+        notification: "EXT_SPOTIFY-NEXT"
       }
+
     ]
   },
 
