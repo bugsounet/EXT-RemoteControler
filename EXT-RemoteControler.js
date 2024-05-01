@@ -237,8 +237,7 @@ Module.register("EXT-RemoteControler", {
     let action = this.config.actions.filter((k) => k.key === Key.keyMap);
     if (action) {
       action.forEach((a) => {
-        console.log("--->", a)
-        if (a.type !== this.config.type) return
+        if (a.type !== this.config.type) return;
         if (a.state && a.state !== Key.keyState && a.type !== "samsung") return;
         if (a.notification) this.sendNotification(a.notification, a.payload || undefined);
         if (a.command) this.sendSocketNotification("SHELLEXEC", a.command);
