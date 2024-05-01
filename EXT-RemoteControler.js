@@ -41,7 +41,6 @@ Module.register("EXT-RemoteControler", {
         ChannelGuide: 79
       }
     },
-    
     actions: [
       // type samsung
       {
