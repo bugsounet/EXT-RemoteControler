@@ -83,9 +83,10 @@ module.exports = NodeHelper.create({
       .on("event", (data) => {
         console.log("[REMOTE] [DEVELOP]", data);
       })
-      .on("EV_REL", (data) => {  //samsung remote control compatibility
-        if (this.config.type !== "samsung") return;
-        if (data.code > 0) {
+      .on("EV_REL", (data) => {
+
+        // samsung remote controler compatibility
+        if (data.code > 0 && this.config.type === "samsung") {
           if (data.value !== this.throttledLastValue) {
             this.throttledLastValue = data.value;
             this.throttled = true;
@@ -96,6 +97,7 @@ module.exports = NodeHelper.create({
               this.throttledTimeout = setTimeout(() => {
                 this.throttled = false;
                 this.throttledTimeout = null;
+                this.throttledLastValue = null;
               }, this.config.throttledTimeout);
             }
             if (this.throttled) return;
@@ -106,8 +108,11 @@ module.exports = NodeHelper.create({
             keyName: data.value,
             keyState: "KEY_PRESSED"
           });
-          log(`[TYPE ${this.config.type}] -- Send Value: ${data.value}`);
+          log(`[TYPE ${this.config.type}] -- SEND Value: ${data.value}`);
         }
+
+        // other remote controler compatibility (for later maybe)
+
       })
       .on("EV_KEY", (data) => {
         if (this.config.type !== "amazon") return;
@@ -117,7 +122,7 @@ module.exports = NodeHelper.create({
           this.pendingKeyPress.state = this.pendingKeyPress.value === 1 ? "KEY_PRESSED" : "KEY_LONGPRESSED";
         } else {
           if ("code" in this.pendingKeyPress && this.pendingKeyPress.code === data.code) {
-            log(`SEND: ${this.pendingKeyPress.code} --> ${this.pendingKeyPress.state}`);
+            log(`[TYPE ${this.config.type}] SEND: ${this.pendingKeyPress.code} --> ${this.pendingKeyPress.state}`);
             this.sendSocketNotification("KEY", {
               keyName: data.code,
               keyState: this.pendingKeyPress.state

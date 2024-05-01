@@ -33,22 +33,138 @@ Module.register("EXT-RemoteControler", {
         Return: 88,
         Home: 121,
         PlayPause: 185,
-        VolumeInc: 7,
-        VolumeDec: 11,
+        VolumeUp: 7,
+        VolumeDown: 11,
         VolumeMute: 15,
-        ChannelInc: 18,
-        ChannelDec: 16,
+        ChannelUp: 18,
+        ChannelDown: 16,
         ChannelGuide: 79
       }
     },
     
     actions: [
+      // type samsung
       {
+        type: "samsung",
+        key: "Power",
+        notification: "EXT_SCREEN-FORCE_TOGGLE"
+      },
+      {
+        type: "samsung",
+        key: "Mic",
+        notification: "GA_ACTIVATE"
+      },
+      {
+        type: "samsung",
+        key: "123",
+        notification: "EXT_FREEBOXTV-PLAY",
+        payload: "RMCDecouverte"
+      },
+      {
+        type: "samsung",
+        key: "Colors",
+        notification: "GA_SYSINFO"
+      },
+      {
+        type: "samsung",
+        key: "ArrowLeft",
+        notification: "EXT_PAGES-DECREMENT"
+      },
+      {
+        type: "samsung",
+        key: "ArrowRight",
+        notification: "EXT_PAGES-INCREMENT"
+      },
+      {
+        type: "samsung",
+        key: "Enter",
+        notification: "GA_STOP"
+      },
+      /* with EXT-Music
+      {
+        type: "samsung",
+        key: "ArrowUp",
+        notification: "EXT_MUSIC-NEXT"
+      },
+      {
+        type: "samsung",
+        key: "ArrowDown",
+        notification: "EXT_MUSIC-PREVIOUS"
+      },
+      */
+      {
+        type: "samsung",
+        key: "ArrowUp",
+        notification: "EXT_SPOTIFY-NEXT"
+      },
+      {
+        type: "samsung",
+        key: "ArrowDown",
+        notification: "EXT_SPOTIFY-PREVIOUS"
+      },
+      {
+        type: "samsung",
+        key: "Return",
+        notification: "EXT_STOP"
+      },
+      {
+        type: "samsung",
+        key: "Home",
+        notification: "EXT_PAGES-HOME"
+      },
+      /* with EXT-Music
+      {
+        type: "samsung",
+        key: "PlayPause",
+        notification: "EXT_MUSIC-PLAY"
+      },
+      */
+      {
+        type: "samsung",
+        key: "PlayPause",
+        notification: "EXT_SPOTIFY-PLAY-TOGGLE"
+      },
+      {
+        type: "samsung",
+        key: "VolumeUp",
+        notification: "EXT_VOLUME-SPEAKER_UP"
+      },
+      {
+        type: "samsung",
+        key: "VolumeDown",
+        notification: "EXT_VOLUME-SPEAKER_DOWN"
+      },
+      {
+        type: "samsung",
+        key: "VolumeMute",
+        notification: "EXT_VOLUME-SPEAKER_MUTE_TOGGLE"
+      },
+
+      {
+        type: "samsung",
+        key: "ChannelUp",
+        notification: "EXT_FREEBOXTV-NEXT"
+      },
+      {
+        type: "samsung",
+        key: "ChannelDown",
+        notification: "EXT_FREEBOXTV-PREVIOUS"
+      },
+      {
+        type: "samsung",
+        key: "ChannelGuide",
+        notification: "EXT_FREEBOXTV-STOP"
+      },
+
+      // type amazon
+      {
+        type: "amazon",
         key: "Enter",
         state: "KEY_PRESSED",
         notification: "GA_ACTIVATE"
       },
       {
+        type: "amazon",
         key: "Enter",
         state: "KEY_LONGPRESSED",
         notification: "GA_STOP"
@@ -121,7 +237,9 @@ Module.register("EXT-RemoteControler", {
     let action = this.config.actions.filter((k) => k.key === Key.keyMap);
     if (action) {
       action.forEach((a) => {
-        if (a.state && a.state !== Key.keyState) return;
+        console.log("--->", a)
+        if (a.type !== this.config.type) return
+        if (a.state && a.state !== Key.keyState && a.type !== "samsung") return;
         if (a.notification) this.sendNotification(a.notification, a.payload || undefined);
         if (a.command) this.sendSocketNotification("SHELLEXEC", a.command);
         if (a.sound) this.audio.src = `${this.resources + a.sound}.mp3`;
