@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "rev": "240501",
   "description": "Control MMM-GoogleAssistant with a Remote Controler",
-  "main": "EXT-RemoteControle.js",
+  "main": "EXT-RemoteControler.js",
   "scripts": {
     "preinstall": "installer/preinstall.sh -d 'build-essential libudev-dev'",
     "postinstall": "installer/postinstall.sh -r -b",
