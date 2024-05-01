@@ -287,7 +287,9 @@ Module.register("EXT-RemoteControler", {
         this.reverseKeyMap[this.config.keyMap[this.config.type][eKey]] = eKey;
       }
     }
+    if (this.config.type !== "amazon" || this.config.type !== "samsung") this.config.type = "samsung";
     this.resources = "/modules/EXT-RemoteControler/resources/";
+    this.icon = `${this.resources+this.config.type}.jpg`;
     this.audio = null;
   },
 
@@ -316,7 +318,7 @@ Module.register("EXT-RemoteControler", {
           type: "warning",
           message: payload,
           timer: 2000,
-          icon: `${this.resources}remote.jpg`
+          icon: this.icon
         });
         break;
       case "INFO":
@@ -324,7 +326,7 @@ Module.register("EXT-RemoteControler", {
           type: "information",
           message: payload,
           timer: 2000,
-          icon: `${this.resources}remote.jpg`
+          icon: this.icon
         });
     }
   },
@@ -339,7 +341,7 @@ Module.register("EXT-RemoteControler", {
         type: "information",
         message: `You pressed: ${Key.keyName} (KeyMap: ${Key.keyMap}) with ${Key.keyState}`,
         timer: 1000,
-        icon: `${this.resources}remote.jpg`
+        icon: this.icon
       });
     }
     let action = this.config.actions.filter((k) => k.key === Key.keyMap);
