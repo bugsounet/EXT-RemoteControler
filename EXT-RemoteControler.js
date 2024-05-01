@@ -68,12 +68,14 @@ Module.register("EXT-RemoteControler", {
       {
         type: "samsung",
         key: "ArrowLeft",
-        notification: "EXT_PAGES-DECREMENT"
+        notification: "EXT_PAGES-DECREMENT",
+        sound: "turn"
       },
       {
         type: "samsung",
         key: "ArrowRight",
-        notification: "EXT_PAGES-INCREMENT"
+        notification: "EXT_PAGES-INCREMENT",
+        sound: "turn2"
       },
       {
         type: "samsung",
@@ -105,7 +107,8 @@ Module.register("EXT-RemoteControler", {
       {
         type: "samsung",
         key: "Return",
-        notification: "EXT_STOP"
+        notification: "EXT_STOP",
+        sound: "closing"
       },
       {
         type: "samsung",
@@ -127,12 +130,14 @@ Module.register("EXT-RemoteControler", {
       {
         type: "samsung",
         key: "VolumeUp",
-        notification: "EXT_VOLUME-SPEAKER_UP"
+        notification: "EXT_VOLUME-SPEAKER_UP",
+        sound: "up"
       },
       {
         type: "samsung",
         key: "VolumeDown",
-        notification: "EXT_VOLUME-SPEAKER_DOWN"
+        notification: "EXT_VOLUME-SPEAKER_DOWN",
+        sound: "down"
       },
       {
         type: "samsung",
@@ -159,12 +164,16 @@ Module.register("EXT-RemoteControler", {
       {
         type: "amazon",
         key: "ArrowLeft",
-        notification: "EXT_PAGES-DECREMENT"
+        state: "KEY_PRESSED",
+        notification: "EXT_PAGES-DECREMENT",
+        sound: "turn"
       },
       {
         type: "amazon",
         key: "ArrowRight",
-        notification: "EXT_PAGES-INCREMENT"
+        state: "KEY_PRESSED",
+        notification: "EXT_PAGES-INCREMENT",
+        sound: "turn2"
       },
       {
         type: "amazon",
@@ -181,18 +190,23 @@ Module.register("EXT-RemoteControler", {
       {
         type: "amazon",
         key: "ArrowUp",
-        notification: "EXT_VOLUME-SPEAKER_UP"
+        state: "KEY_PRESSED",
+        notification: "EXT_VOLUME-SPEAKER_UP",
+        sound: "up"
       },
       {
         type: "amazon",
         key: "ArrowDown",
-        notification: "EXT_VOLUME-SPEAKER_DOWN"
+        state: "KEY_PRESSED",
+        notification: "EXT_VOLUME-SPEAKER_DOWN",
+        sound: "down"
       },
       {
         type: "amazon",
         key: "Return",
         state: "KEY_PRESSED",
-        notification: "EXT_STOP"
+        notification: "EXT_STOP",
+        sound: "closing"
       },
       {
         type: "amazon",
