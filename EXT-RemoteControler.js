@@ -62,7 +62,7 @@ Module.register("EXT-RemoteControler", {
       {
         type: "samsung",
         key: "Colors",
-        notification: "GA_SYSINFO"
+        notification: "EXT_WEBSITE-SYSINFO"
       },
       {
         type: "samsung",
