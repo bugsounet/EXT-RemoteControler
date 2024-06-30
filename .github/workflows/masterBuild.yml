@@ -1,10 +1,10 @@
-name: "MagicMirror² (master) and EXT-RemoteControler build Testing"
+name: "MagicMirror² (master) build Testing"
 
 on: [pull_request]
 
 jobs:
   build:
-    name: Test install EXT-RemoteControler
+    name: Test install
     runs-on: ubuntu-latest
     strategy:
       matrix:
