@@ -28,6 +28,6 @@ jobs:
           path: MagicMirror/modules/EXT-RemoteControler
 
       - name: Install EXT-RemoteControler
-        run: npm install
+        run: npm run preinstall && npm install
         working-directory: MagicMirror/modules/EXT-RemoteControler
         continue-on-error: false
