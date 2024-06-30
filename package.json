@@ -1,8 +1,52 @@
 {
-  "name": "EXT-FireTVRemote",
-  "version": "0.0.0",
-  "rev": "240310",
-  "description": "Control MMM-GoogleAssistant with Amazon FireTV Remote",
+  "name": "EXT-RemoteControler",
+  "version": "1.0.0",
+  "rev": "240701",
+  "description": "Control MMM-GoogleAssistant with a Remote Controler",
+  "main": "EXT-RemoteControler.js",
+  "scripts": {
+    "preinstall": "installer/preinstall.sh -d 'build-essential libudev-dev evtest'",
+    "postinstall": "installer/postinstall.sh -r -m",
+    "scan": "installer/scan.sh",
+    "pair": "installer/pair.sh",
+    "setup": "installer/setup.sh",
+    "update": "installer/update.sh",
+    "rebuild": "installer/rebuild.sh",
+    "reset": "git reset --hard",
+    "clean": "rm -rf node_modules package-lock.json",
+    "lint": "eslint *.js installer/*.js --config eslint.config.js",
+    "lint:fix": "eslint *.js installer/*.js --config eslint.config.js --fix",
+    "test": "npm run lint",
+    "test:minify": "cd installer && node minify.js"
+  },
+  "keywords": [
+    "MMM-GoogleAssistant",
+    "magic mirror",
+    "module",
+    "remote"
+  ],
   "author": "bugsounet",
-  "license": "MIT"
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/bugsounet/EXT-RemoteControler/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bugsounet/EXT-RemoteControler"
+  },
+  "homepage": "https://wiki.bugsounet.fr/en/EXT-RemoteControler",
+  "dependencies": {
+    "@electron/rebuild": "^3.6.0",
+    "esbuild": "^0.21.5",
+    "evdev": "^0.3.0",
+    "glob": "^10.4.2",
+    "nan": "^2.20.0",
+    "udev": "^1.0.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^8.57.0",
+    "@stylistic/eslint-plugin": "^1.8.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-import": "^2.29.1"
+  }
 }

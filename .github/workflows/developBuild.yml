@@ -1,0 +1,33 @@
+name: "MagicMirror² (develop) build Testing"
+
+on: [pull_request]
+
+jobs:
+  build:
+    name: Test install
+    runs-on: ubuntu-latest
+    steps:
+      - name: "Use Node.js v20.x (latest)"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x"
+          check-latest: true
+
+      - name: Checkout MagicMirror² (develop)
+        uses: actions/checkout@v4
+        with:
+          repository: MagicMirrorOrg/MagicMirror
+          ref: develop
+
+      - name: Install MagicMirror²
+        run: npm install
+
+      - name: Checkout EXT-RemoteControler
+        uses: actions/checkout@v4
+        with:
+          path: MagicMirror/modules/EXT-RemoteControler
+
+      - name: Install EXT-RemoteControler
+        run: npm run preinstall && npm install
+        working-directory: MagicMirror/modules/EXT-RemoteControler
+        continue-on-error: false
